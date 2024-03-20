@@ -1,0 +1,47 @@
+A collection is a named set of points (vectors with a payload) among which you can search. The vector of each point within the same collection must have the same dimensionality and be compared by a single metric. [Named vectors](#collection-with-multiple-vectors) can be used to have multiple vectors in a single point, each of which can have their own dimensionality and metric requirements.
+Distance metrics are used to measure similarities among vectors.
+The choice of metric depends on the way vectors obtaining and, in particular, on the method of neural network encoder training.
+Qdrant supports these most popular types of metrics:
+Dot product: `Dot` - [[wiki]](https://en.wikipedia.org/wiki/Dot_product)
+Cosine similarity: `Cosine`  - [[wiki]](https://en.wikipedia.org/wiki/Cosine_similarity)
+Euclidean distance: `Euclid` - [[wiki]](https://en.wikipedia.org/wiki/Euclidean_distance)
+Manhattan distance: `Manhattan` - [[wiki]](https://en.wikipedia.org/wiki/Taxicab_geometry)
+In addition to metrics and vector size, each collection uses its own set of parameters that controls collection optimization, index construction, and vacuum.
+These settings can be changed at any time by a corresponding request.
+In addition to the required options, you can also specify custom values for the following collection options:
+
+* `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
+* `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](../storage/#versioning)
+* `optimizers_config` - see [optimizer](../optimizer/) for details.
+* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../../guides/distributed_deployment/#sharding) section for details.
+* `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
+* `quantization_config` - see [quantization](../../guides/quantization/#setting-up-quantization-in-qdrant) for details.
+
+Default parameters for the optional collection parameters are defined in [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
+
+See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/create_collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection and vector parameters.
+
+*Available as of v1.2.0*
+
+Vectors all live in RAM for very quick access. The `on_disk` parameter can be
+set in the vector configuration. If true, all vectors will live on disk. This
+will enable the use of
+[memmaps](../../concepts/storage/#configuring-memmap-storage),
+which is suitable for ingesting a large amount of data.
+
+### Create collection from another collection
+
+*Available as of v1.0.0*
+
+It is possible to initialize a collection from another existing collection.
+
+This might be useful for experimenting quickly with different configurations for the same data set.
+
+Make sure the vectors have the same `size` and `distance` function when setting up the vectors configuration in the new collection. If you used the previous sample
+code, `"size": 300` and `"distance": "Cosine"`.
+You may be interested in the count attributes:
+
+points_count - total number of objects (vectors and their payloads) stored in the collection
+vectors_count - total number of vectors in a collection, useful if you have multiple vectors per point
+indexed_vectors_count - total number of vectors stored in the HNSW or sparse index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
+The above counts are not exact, but should be considered approximate. Depending on how you use Qdrant these may give very different numbers than what you may expect. It’s therefore important not to rely on them.
