@@ -1,0 +1,31 @@
+{
+    "version": "0.1.246",
+    "file_structure": [
+        "vdf_20240509_145419_88ae5/pubmed/i1.parquet/1.parquet",
+        "vdf_20240509_145419_88ae5/VDF_META.json"
+    ],
+    "author": "infoslack",
+    "exported_from": "pinecone",
+    "indexes": {
+        "pubmed": [
+            {
+                "namespace": "",
+                "index_name": "pubmed",
+                "total_vector_count": 1000,
+                "exported_vector_count": 1000,
+                "dimensions": 1536,
+                "model_name": "NOT_PROVIDED",
+                "model_map": null,
+                "vector_columns": [
+                    "vector"
+                ],
+                "data_path": "pubmed/i1.parquet",
+                "metric": "Cosine",
+                "index_config": null,
+                "schema_dict_str": "id: string\nvector: list<element: double>\n  child 0, element: double\ntext: string\n-- schema metadata --\npandas: '{\"index_columns\": [{\"kind\": \"range\", \"name\": null, \"start\": 0, \"' + 592"
+            }
+        ]
+    },
+    "exported_at": "2024-05-09T14:54:30.502416-03:00",
+    "id_column": null
+}
