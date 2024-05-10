@@ -38,3 +38,16 @@ import_vdf qdrant -u $QDRANT_HOST
 Note that the data was imported maintaining the same dimension:
 
 !["Qdrant Cloud"](imgs/qdrant.png)
+
+Additionally, the Vector-io library offers a re-embedding feature, which is useful when the vector embeddings need to be updated or changed to a different vector model. This process involves specifying a new model and the column to be re-embedded.
+For example, let's say that during the migration from Pinecone to Qdrant, I wanted to switch from OpenAI "text-embedding-3-small" to "sentence-transformers/all-MiniLM-L6-v2":
+
+!["Reembed"](imgs/reembed.png)
+
+After generating the embeddings with the new model, I can now redo the import to Qdrant:
+
+!["Reimport"](imgs/reimport.png)
+
+Finally, we can see that the model displayed with the embeddings is the new one and that the respective vectors are in a new dimension:
+
+!["Qdrant cloud new embeddings"](imgs/qdrant-new-embed.png)
