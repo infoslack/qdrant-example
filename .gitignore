@@ -3,5 +3,4 @@ demo.py
 __pycache__/
 .env
 envs/
-*.ipynb
 .ipynb_checkpoints
